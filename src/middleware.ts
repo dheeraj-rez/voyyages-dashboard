@@ -7,28 +7,8 @@ type UserRole = 'admin' | 'ops' | 'agent' | 'guest';
 // Function to simulate getting user role from token/session
 // TODO: Replace with actual JWT verification and role extraction from token payload
 async function getUserRoleFromToken(request: NextRequest): Promise<UserRole> {
-  const token = request.cookies.get('authToken')?.value; // Example: Get token from cookie
-
-  if (!token) {
-    return 'guest';
-  }
-
-  try {
-    // --- Replace with actual JWT verification logic ---
-    // Example: const decoded = await verifyJwt(token); // Use a library like 'jose' or 'jsonwebtoken'
-    // return decoded.role as UserRole;
-    // --- End Replace ---
-
-    // Placeholder logic based on token value for demo
-    if (token === 'admin-token') return 'admin';
-    if (token === 'ops-token') return 'ops';
-    if (token === 'agent-token') return 'agent';
-
-    return 'guest'; // Invalid token or role
-  } catch (error) {
-    console.error('Token verification failed:', error);
-    return 'guest';
-  }
+  // Temporarily bypass authentication and always return admin role
+  return 'admin';
 }
 
 // Define protected routes and required roles
