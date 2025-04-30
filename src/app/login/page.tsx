@@ -57,32 +57,62 @@ export default function LoginPage() {
     //   });
 
     //   if (!response.ok) {
-    //     throw new Error('Login failed');
+    //      // Attempt to parse error message from backend if available
+    //      let errorMsg = 'Login failed';
+    //      try {
+    //        const errorData = await response.json();
+    //        errorMsg = errorData.message || errorMsg;
+    //      } catch (parseError) {
+    //         // Ignore if response is not JSON
+    //      }
+    //      throw new Error(errorMsg);
     //   }
 
     //   const { token, user } = await response.json();
 
-      // TODO: Store the JWT token securely (e.g., HttpOnly cookie or localStorage - consider security implications)
-      // localStorage.setItem('authToken', token);
+      // TODO: Store the JWT token securely (e.g., HttpOnly cookie set by the server)
+      // The server should set the HttpOnly cookie upon successful login.
+      // document.cookie = `authToken=${token}; path=/; max-age=...; HttpOnly; Secure; SameSite=Strict`; // Client-side setting is NOT recommended for HttpOnly
 
-      // Determine redirect based on role
-      // let redirectPath = '/';
-      // if (user.role === 'admin') {
-      //   redirectPath = '/admin';
-      // } else if (user.role === 'ops') {
-      //   redirectPath = '/ops';
-      // } else if (user.role === 'agent') {
-      //   redirectPath = '/agent';
-      // }
+      // Determine redirect based on role fetched from backend
+    //   let redirectPath = '/'; // Default redirect path
+    //   if (user && user.role) { // Check if user and role exist
+    //      switch (user.role) {
+    //        case 'admin':
+    //          redirectPath = '/admin';
+    //          break;
+    //        case 'ops':
+    //          redirectPath = '/ops';
+    //          break;
+    //        case 'agent':
+    //          redirectPath = '/agent';
+    //          break;
+    //        default:
+    //          console.warn("Unknown user role:", user.role);
+    //          // Redirect to a default authenticated user page or home
+    //          redirectPath = '/agent'; // Example: default to agent dashboard if role unknown
+    //      }
+    //   } else {
+    //       console.error("User role not found in login response");
+    //       // Handle case where role is missing, maybe redirect to a generic profile page or show error
+    //       toast({
+    //         title: 'Login Error',
+    //         description: 'Could not determine user role. Please contact support.',
+    //         variant: 'destructive',
+    //       });
+    //       setIsSubmitting(false);
+    //       return;
+    //   }
 
-      // toast({ title: 'Login Successful!', variant: 'default' });
-      // router.push(redirectPath); // Use router.push for navigation
 
-    // } catch (error) {
+    //   toast({ title: 'Login Successful!', variant: 'default' });
+    //   router.push(redirectPath); // Use router.push for navigation
+
+    // } catch (error: any) { // Catch any error type
     //   console.error('Login error:', error);
     //   toast({
     //     title: 'Login Failed',
-    //     description: 'Invalid email or password.',
+    //     description: error.message || 'Invalid email or password.', // Display backend error or generic message
     //     variant: 'destructive',
     //   });
     // } finally {
@@ -93,7 +123,7 @@ export default function LoginPage() {
     // Placeholder logic: redirect based on email for demo
     let redirectPath = '/';
      if (values.email.includes('admin')) {
-        redirectPath = '/admin';
+        redirectPath = '/admin'; // Correctly redirects admin users
      } else if (values.email.includes('ops')) {
         redirectPath = '/ops';
      } else if (values.email.includes('agent')) {
@@ -115,12 +145,14 @@ export default function LoginPage() {
 
     // Don't reset form on failed login, allow retry
     // form.reset();
-    setIsSubmitting(false); // Set back even on success if navigation doesn't unmount
+    // Setting isSubmitting back to false happens in the finally block in the real implementation
+    // For the placeholder, we need to do it here if navigation doesn't unmount immediately
+    // setIsSubmitting(false); // Keep this commented out if navigation happens quickly
   }
 
   return (
-    <div className="flex justify-center items-center min-h-[calc(100vh-10rem)]">
-      <Card className="w-full max-w-md shadow-lg">
+    // Removed min-h-[calc(100vh-10rem)] to let the AuthLayout handle centering
+    <Card className="w-full max-w-md shadow-lg">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-primary">Login</CardTitle>
           <CardDescription>Enter your credentials to access your dashboard.</CardDescription>
@@ -174,6 +206,5 @@ export default function LoginPage() {
           </div>
         </CardContent>
       </Card>
-    </div>
   );
 }

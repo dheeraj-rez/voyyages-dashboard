@@ -70,8 +70,9 @@ export default function AdminDashboard() {
       variant: 'default', // Use 'default' for blue
        className: 'bg-accent text-accent-foreground border-accent', // Override with green accent styles
     });
-     // Send email via backend API
+     // TODO: Send email via backend API
      // await fetch('/api/admin/approve', { method: 'POST', body: JSON.stringify({ requestId }) });
+     // Example: await sendEmail({ to: request.email, subject: 'Application Approved', html: '...' });
   };
 
   const handleReject = async () => {
@@ -88,8 +89,9 @@ export default function AdminDashboard() {
      });
      setSelectedRequest(null); // Close dialog
      setRejectionReason(''); // Clear reason
-     // Send email via backend API
+     // TODO: Send email via backend API
      // await fetch('/api/admin/reject', { method: 'POST', body: JSON.stringify({ requestId, reason: rejectionReason }) });
+     // Example: await sendEmail({ to: selectedRequest.email, subject: 'Application Update', html: `Reason: ${rejectionReason}` });
   };
 
   const getStatusBadge = (status: AgentRequestStatus) => {
@@ -218,19 +220,6 @@ export default function AdminDashboard() {
           </Table>
         </CardContent>
       </Card>
-
-        {/* TODO: Add User Management Section */}
-        {/* <Card className="shadow-md mt-6">
-            <CardHeader>
-            <CardTitle>Manage Users</CardTitle>
-            <CardDescription>View and manage existing users (admins, ops, agents).</CardDescription>
-            </CardHeader>
-            <CardContent>
-            <p className="text-muted-foreground">User management interface coming soon...</p>
-             <Button disabled>Add User</Button> */}
-            {/* User table here */}
-            {/* </CardContent>
-        </Card> */}
     </div>
   );
 }

@@ -20,12 +20,15 @@ export default function RootLayout({
       <body
         className={cn(
           'h-full font-sans antialiased',
-          GeistSans.variable
+          GeistSans.variable // Ensure GeistSans variable is correctly referenced if installed
+          // If 'geist/font/sans' is not found, replace the above line with a fallback like:
+          // 'font-sans' // Assuming you have a default sans-serif in globals.css or tailwind config
         )}
       >
         <div className="flex flex-col min-h-screen">
-          <AppHeader />
-          <main className="flex-grow container mx-auto px-4 py-8">
+          {/* Render AppHeader only if not on the apply page - handled by separate layouts */}
+          {/* AppHeader is rendered conditionally via page layouts */}
+          <main className="flex-grow"> {/* Removed container and padding, handled by specific page layouts */}
             {children}
           </main>
           <Toaster />
