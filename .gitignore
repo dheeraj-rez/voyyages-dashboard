@@ -97,3 +97,5 @@ out
 .turbo
 
 .genkit/*
+
+.env
